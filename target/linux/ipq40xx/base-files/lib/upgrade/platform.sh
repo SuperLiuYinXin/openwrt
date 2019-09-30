@@ -69,6 +69,7 @@ platform_do_upgrade() {
 	edgecore,ecw5211 |\
 	edgecore,oap100 |\
 	engenius,eap2200 |\
+	hiwifi,c526a |\
 	luma,wrtq-329acn |\
 	mobipromo,cm520-79f |\
 	p2w,r619ac-64m |\
