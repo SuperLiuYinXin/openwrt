@@ -126,6 +126,7 @@
 
 &gmac0 {
 	mtd-mac-address = <&factory 0xe000>;
+	phy-mode = "trgmii";
 };
 
 &switch0 {
@@ -154,6 +155,9 @@
 		port@4 {
 			status = "okay";
 			label = "lan4";
+		};
+		port@6 {
+			phy-mode = "trgmii";
 		};
 	};
 };
