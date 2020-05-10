@@ -1057,7 +1057,6 @@ define KernelPackage/thermal
   SUBMENU:=$(OTHER_MENU)
   TITLE:=Generic Thermal sysfs driver
   DEPENDS:=+kmod-hwmon-core
-  HIDDEN:=1
   KCONFIG:= \
 	CONFIG_THERMAL \
 	CONFIG_THERMAL_OF=y \
