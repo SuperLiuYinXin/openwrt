@@ -96,9 +96,9 @@ ipset_r() {
 	gfw)
 		ipset -N gfwlist hash:net 2>/dev/null
 		$IPT -N SS_SPEC_WAN_AC
+		$IPT -A SS_SPEC_WAN_AC -m set --match-set china dst -j RETURN
 		$IPT -A SS_SPEC_WAN_AC -m set --match-set gfwlist dst -j SS_SPEC_WAN_FW
 		$IPT -A SS_SPEC_WAN_AC -m set --match-set gmlan src -m set ! --match-set china dst -j SS_SPEC_WAN_FW
-		$IPT -A SS_SPEC_WAN_AC -m set --match-set china dst -j RETURN
 		$IPT -I SS_SPEC_WAN_AC -p tcp ! --dport 53 -d $server -j RETURN
 		;;
 	oversea)
