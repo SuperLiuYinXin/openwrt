@@ -437,6 +437,9 @@
 
 		clocks = <&nficlock>;
 		clock-names = "nfi_clk";
+
+		resets = <&rstctrl 15>;
+		reset-names = "nfi";
 	};
 
 	crypto@1e004000 {
