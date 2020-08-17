@@ -29,8 +29,7 @@ inbound = (local_port ~= "0") and {
 		followRedirect = true
 	},
 	sniffing = {
-		enabled = true,
-		destOverride = { "http", "tls" }
+		enabled = false
 	}
 } or nil,
 -- 开启 socks 代理
