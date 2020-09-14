@@ -151,28 +151,12 @@ define KernelPackage/mt7615-common
   FILES:= $(PKG_BUILD_DIR)/mt7615/mt7615-common.ko
 endef
 
-define KernelPackage/mt7615-firmware
-  $(KernelPackage/mt76-default)
-  TITLE:=MediaTek MT7615e firmware
-  DEFAULT:=PACKAGE_kmod-mt7615e
-endef
-
 define KernelPackage/mt7615e
   $(KernelPackage/mt76-default)
   TITLE:=MediaTek MT7615e wireless driver
   DEPENDS+=@PCI_SUPPORT +kmod-mt7615-common
   FILES:= $(PKG_BUILD_DIR)/mt7615/mt7615e.ko
   AUTOLOAD:=$(call AutoProbe,mt7615e)
-endef
-
-define KernelPackage/mt7663-firmware-ap
-  $(KernelPackage/mt76-default)
-  TITLE:=MediaTek MT7663e firmware (optimized for AP)
-endef
-
-define KernelPackage/mt7663-firmware-sta
-  $(KernelPackage/mt76-default)
-  TITLE:=MediaTek MT7663e firmware (client mode offload)
 endef
 
 define KernelPackage/mt7663-usb-sdio
@@ -215,6 +199,28 @@ define Package/mt76-test
   CATEGORY:=Development
   TITLE:=mt76 testmode CLI
   DEPENDS:=kmod-mt76-core +libnl-tiny
+endef
+
+define Package/mt76-firmware-default
+  SECTION:=firmware
+  CATEGORY:=Firmware
+  PKGARCH:=all
+endef
+
+define Package/mt7615-firmware
+  $(Package/mt76-firmware-default)
+  TITLE:=MediaTek MT7615e firmware
+  DEFAULT:=PACKAGE_kmod-mt7615e
+endef
+
+define Package/mt7663-firmware-ap
+  $(Package/mt76-firmware-default)
+  TITLE:=MediaTek MT7663e firmware (optimized for AP)
+endef
+
+define Package/mt7663-firmware-sta
+  $(Package/mt76-firmware-default)
+  TITLE:=MediaTek MT7663e firmware (client mode offload)
 endef
 
 TARGET_CFLAGS += -I$(STAGING_DIR)/usr/include/libnl-tiny
@@ -347,34 +353,6 @@ define KernelPackage/mt7603/install
 		$(1)/lib/firmware
 endef
 
-define KernelPackage/mt7615-firmware/install
-	$(INSTALL_DIR) $(1)/lib/firmware/mediatek
-	cp \
-		$(PKG_BUILD_DIR)/firmware/mt7615_cr4.bin \
-		$(PKG_BUILD_DIR)/firmware/mt7615_n9.bin \
-		$(PKG_BUILD_DIR)/firmware/mt7615_rom_patch.bin \
-		$(if $(CONFIG_TARGET_mediatek_mt7622), \
-			$(PKG_BUILD_DIR)/firmware/mt7622_n9.bin \
-			$(PKG_BUILD_DIR)/firmware/mt7622_rom_patch.bin) \
-		$(1)/lib/firmware/mediatek
-endef
-
-define KernelPackage/mt7663-firmware-ap/install
-	$(INSTALL_DIR) $(1)/lib/firmware/mediatek
-	cp \
-		$(PKG_BUILD_DIR)/firmware/mt7663_n9_rebb.bin \
-		$(PKG_BUILD_DIR)/firmware/mt7663pr2h_rebb.bin \
-		$(1)/lib/firmware/mediatek
-endef
-
-define KernelPackage/mt7663-firmware-sta/install
-	$(INSTALL_DIR) $(1)/lib/firmware/mediatek
-	cp \
-		$(PKG_BUILD_DIR)/firmware/mt7663_n9_v3.bin \
-		$(PKG_BUILD_DIR)/firmware/mt7663pr2h.bin \
-		$(1)/lib/firmware/mediatek
-endef
-
 define KernelPackage/mt7915e/install
 	$(INSTALL_DIR) $(1)/lib/firmware/mediatek
 	cp \
@@ -389,6 +367,34 @@ define Package/mt76-test/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/tools/mt76-test $(1)/usr/sbin
 endef
 
+define Package/mt7615-firmware/install
+	$(INSTALL_DIR) $(1)/lib/firmware/mediatek
+	cp \
+		$(PKG_BUILD_DIR)/firmware/mt7615_cr4.bin \
+		$(PKG_BUILD_DIR)/firmware/mt7615_n9.bin \
+		$(PKG_BUILD_DIR)/firmware/mt7615_rom_patch.bin \
+		$(if $(CONFIG_TARGET_mediatek_mt7622), \
+			$(PKG_BUILD_DIR)/firmware/mt7622_n9.bin \
+			$(PKG_BUILD_DIR)/firmware/mt7622_rom_patch.bin) \
+		$(1)/lib/firmware/mediatek
+endef
+
+define Package/mt7663-firmware-ap/install
+	$(INSTALL_DIR) $(1)/lib/firmware/mediatek
+	cp \
+		$(PKG_BUILD_DIR)/firmware/mt7663_n9_rebb.bin \
+		$(PKG_BUILD_DIR)/firmware/mt7663pr2h_rebb.bin \
+		$(1)/lib/firmware/mediatek
+endef
+
+define Package/mt7663-firmware-sta/install
+	$(INSTALL_DIR) $(1)/lib/firmware/mediatek
+	cp \
+		$(PKG_BUILD_DIR)/firmware/mt7663_n9_v3.bin \
+		$(PKG_BUILD_DIR)/firmware/mt7663pr2h.bin \
+		$(1)/lib/firmware/mediatek
+endef
+
 $(eval $(call KernelPackage,mt76-core))
 $(eval $(call KernelPackage,mt76-usb))
 $(eval $(call KernelPackage,mt76x02-usb))
@@ -401,13 +407,13 @@ $(eval $(call KernelPackage,mt76x2u))
 $(eval $(call KernelPackage,mt76x2))
 $(eval $(call KernelPackage,mt7603))
 $(eval $(call KernelPackage,mt7615-common))
-$(eval $(call KernelPackage,mt7615-firmware))
 $(eval $(call KernelPackage,mt7615e))
-$(eval $(call KernelPackage,mt7663-firmware-ap))
-$(eval $(call KernelPackage,mt7663-firmware-sta))
 $(eval $(call KernelPackage,mt7663-usb-sdio))
 $(eval $(call KernelPackage,mt7663u))
 $(eval $(call KernelPackage,mt7663s))
 $(eval $(call KernelPackage,mt7915e))
 $(eval $(call KernelPackage,mt76))
 $(eval $(call BuildPackage,mt76-test))
+$(eval $(call BuildPackage,mt7615-firmware))
+$(eval $(call BuildPackage,mt7663-firmware-ap))
+$(eval $(call BuildPackage,mt7663-firmware-sta))

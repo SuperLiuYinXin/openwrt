@@ -27,8 +27,7 @@ define Device/elecom_wrc-2533gent
   DEVICE_MODEL := WRC-2533GENT
   DEVICE_DTS := mt7622-elecom-wrc-2533gent
   DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
-  DEVICE_PACKAGES := kmod-usb-ohci kmod-usb2 kmod-usb3 kmod-mt7615e \
-	kmod-mt7615-firmware kmod-btmtkuart swconfig
+  DEVICE_PACKAGES := kmod-usb-ohci kmod-usb2 kmod-usb3 kmod-btmtkuart swconfig
 endef
 TARGET_DEVICES += elecom_wrc-2533gent
 
