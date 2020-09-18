@@ -41,6 +41,7 @@ define Device/xiaomi_ax3600
 	PAGESIZE := 2048
 	BOARD_NAME := ax3600
 	UBI_OPTS:="-m 2048 -p 128KiB -O 2048 -v"
+	DEVICE_PACKAGES := ath11k-wifi-sercomm-wallaby
 endef
 TARGET_DEVICES += xiaomi_ax3600
 
